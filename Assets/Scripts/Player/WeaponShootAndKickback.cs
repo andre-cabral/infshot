@@ -47,7 +47,7 @@ public class WeaponShootAndKickback : MonoBehaviour {
 	public void ShootBullet(){
 		returning = false;
 		timeToStartReturnPassed = 0f;
-		Instantiate(bullet, bulletPositionObject.position, transform.rotation);
+		Instantiate(bullet, bulletPositionObject.position, bulletPositionObject.rotation);
 		if(transform.rotation.eulerAngles.z + kickBackPerShoot <= maximumRotation){
 			transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z + kickBackPerShoot);
 		}else{
