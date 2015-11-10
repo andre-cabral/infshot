@@ -12,6 +12,7 @@ public class WeaponShootAndKickback : MonoBehaviour {
 	bool returning = true;
 	public GameObject bullet;
 	public Transform bulletPositionObject;
+	public GameObject[] shootSplashObjects;
 
 	void Update () {
 		if(Input.GetButton("Fire1")){
@@ -48,10 +49,26 @@ public class WeaponShootAndKickback : MonoBehaviour {
 		returning = false;
 		timeToStartReturnPassed = 0f;
 		Instantiate(bullet, bulletPositionObject.position, bulletPositionObject.rotation);
+
+		EnableOneSplashObject();
+
 		if(transform.rotation.eulerAngles.z + kickBackPerShoot <= maximumRotation){
 			transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z + kickBackPerShoot);
 		}else{
 			transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, maximumRotation);
+		}
+	}
+
+	void DisableAllSplashObjects(){
+		foreach(GameObject splash in shootSplashObjects){
+			splash.SetActive(false);
+		}
+	}
+
+	void EnableOneSplashObject(){
+		if(shootSplashObjects.Length > 0){
+			DisableAllSplashObjects();
+			shootSplashObjects[Random.Range(0, shootSplashObjects.Length)].SetActive(true);
 		}
 	}
 }

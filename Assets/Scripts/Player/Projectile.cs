@@ -3,28 +3,24 @@ using System.Collections;
 
 public class Projectile : MonoBehaviour {
 
-	int damage = 1;
+	public int damage = 1;
 	public float velocity = 10f;
+	public bool destroyOnHitEnemy = true;
 	bool startProjectile = false;
 
 	void Update () {
 		/*if(startProjectile){*/
-			transform.Translate(Vector2.up * velocity * Time.deltaTime);
+			transform.Translate(Vector2.right * velocity * Time.deltaTime);
 		/*}*/
 	}
 
-	void OnTriggerEnter(Collider collider){
-		/*
-		if(startProjectile){
-			if(collider.CompareTag(Tags.wall)){
-				Destroy(gameObject);
-			}
-			if(collider.CompareTag(targetTag)){
-				collider.gameObject.GetComponent<UnitStats>().takeDamage(unitUsing, unitStats.attack);
+	void OnTriggerEnter2D(Collider2D collider){
+		if(collider.CompareTag(Tags.enemy)){
+			collider.gameObject.GetComponent<EnemyLife>().takeDamage(damage);
+			if(destroyOnHitEnemy){
 				Destroy(gameObject);
 			}
 		}
-		*/
 	}
 
 	/*

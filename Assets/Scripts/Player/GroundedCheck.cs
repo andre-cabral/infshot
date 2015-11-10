@@ -15,9 +15,7 @@ public class GroundedCheck : MonoBehaviour {
 
 	void OnTriggerExit2D(Collider2D other) {
 		if(other.tag == Tags.platform){
-			if(playerMovement.getRigidbody2D().velocity.y >0){
-				playerMovement.setGrounded(false);
-			}
+			playerMovement.setGrounded(false);
 		}
 	}
 }

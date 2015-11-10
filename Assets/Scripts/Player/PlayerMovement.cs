@@ -3,8 +3,11 @@ using System.Collections;
 
 public class PlayerMovement : MonoBehaviour {
 
-	public float jumpMidForce = 2000f;
-	public float maxJump = 100f;
+	public float jumpStartForce = 200f;
+	public float jumpStartTime = 0.07f;
+	float jumpStartTimePassed = 0f;
+	public float jumpMidForce = 300f;
+	public float maxJump = 600f;
 	public float walkSpeed = 2f;
 	bool grounded = true;
 	float jumpPassed = 0f;
@@ -26,27 +29,44 @@ public class PlayerMovement : MonoBehaviour {
 			rbody2d.velocity = new Vector2( (Vector2.right.x * Input.GetAxisRaw("Horizontal") * walkSpeed), rbody2d.velocity.y );
 		}
 
-		/*ontouch status = pressed*/
 		if(Input.GetButton("Jump")){
 			if(grounded && !jumpPressed){
 				jumpPressed = true;
-			}
-			if(jumpPressed && jumpPassed <= maxJump){
-				jumpPassed += Time.deltaTime * jumpMidForce;
-				rbody2d.AddForce(Vector2.up * Time.deltaTime * jumpMidForce);
+				rbody2d.AddForce(Vector2.up * jumpStartForce);
 			}
 		}
+
+		if(jumpPressed){
+			jumpStartTimePassed += Time.deltaTime;
+		}
+
 
 		/*on touch status endtouch*/
 		if(Input.GetButtonUp("Jump")){
 			jumpPressed = false;
 			jumpPassed = 0f;
+			jumpStartTimePassed = 0f;
 		}
 	}
 
 	void FixedUpdate(){
+		/*ontouch status = pressed*/
+		if(Input.GetButton("Jump")){
+			if(jumpPressed && jumpPassed <= maxJump && jumpStartTimePassed >= jumpStartTime){
+				jumpPassed += jumpMidForce;
+				rbody2d.AddForce(Vector2.up * jumpMidForce);
+			}
+		}
+
 		animator.SetFloat(hashAnimatorCharacter.xVelocity, rbody2d.velocity.x);
 		animator.SetFloat(hashAnimatorCharacter.yVelocity, rbody2d.velocity.y);
+
+		if(rbody2d.velocity.y != 0 && grounded){
+			setGrounded(false);
+		}
+		if(!grounded && rbody2d.velocity.y == 0){
+			setGrounded(true);
+		}
 	}
 
 	public void setGrounded(bool grounded){
