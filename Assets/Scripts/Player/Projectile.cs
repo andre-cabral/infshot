@@ -6,6 +6,7 @@ public class Projectile : MonoBehaviour {
 	public int damage = 1;
 	public float velocity = 10f;
 	public bool destroyOnHitEnemy = true;
+	public bool destroyOnHitObject = true;
 	bool startProjectile = false;
 
 	void Update () {
@@ -18,6 +19,12 @@ public class Projectile : MonoBehaviour {
 		if(collider.CompareTag(Tags.enemy)){
 			collider.gameObject.GetComponent<EnemyLife>().takeDamage(damage);
 			if(destroyOnHitEnemy){
+				Destroy(gameObject);
+			}
+		}
+		if(collider.CompareTag(Tags.destructibleObject)){
+			collider.gameObject.GetComponent<DestructibleObject>().takeDamage(damage);
+			if(destroyOnHitObject){
 				Destroy(gameObject);
 			}
 		}

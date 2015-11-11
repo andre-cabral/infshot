@@ -6,7 +6,7 @@ public class PointsMovement : MonoBehaviour {
 
 	public Transform[] waypoints;
 	Vector2[] points;
-	public float velocity = 0.15f;
+	public float velocity = 3f;
 	private Vector2 startPosition;
 	private int vectorIndex = 0;
 	/*private bool isFacingRight = true;*/
@@ -26,9 +26,9 @@ public class PointsMovement : MonoBehaviour {
 	void Update () {
 		/*if(!enemyCollisions.getTakingDamage()){*/
 			if(vectorIndex < points.Length){
-				Movement(points[vectorIndex], velocity);
+				Movement(points[vectorIndex], velocity*Time.deltaTime);
 			}else{
-				Movement(startPosition, velocity);
+				Movement(startPosition, velocity*Time.deltaTime);
 			}
 		/*}*/
 	}

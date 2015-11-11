@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class EnemyLife : MonoBehaviour {
+public class DestructibleObject : MonoBehaviour {
 
-	public int maxLife = 5;
+	public int maxLife = 3;
 	int life = 9999;
 
 	void Awake(){
