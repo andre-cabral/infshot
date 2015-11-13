@@ -10,17 +10,32 @@ public class WeaponShootAndKickback : MonoBehaviour {
 	public float timeToStartReturn = 0.2f;
 	float timeToStartReturnPassed = 0f;
 	bool returning = true;
+	public bool automaticWeapon = false;
+	public float automaticWeaponDelay = 0f;
+	float automaticWeaponPassed = 0f;
 	public GameObject bullet;
 	public Transform bulletPositionObject;
 	public GameObject[] shootSplashObjects;
 
 	void Update () {
-		if(Input.GetButton("Fire1")){
-			ShootBullet();
-		}
 
-		if(Input.GetButtonDown("Fire2")){
-			ShootBullet();
+		if(automaticWeapon){
+			if(Input.GetButtonDown("Fire2")){
+				ShootBullet();
+				automaticWeaponPassed = 0f;
+			}
+			if(Input.GetButton("Fire1")){
+				if(automaticWeaponPassed >= automaticWeaponDelay){
+					ShootBullet();
+					automaticWeaponPassed = 0f;
+				}else{
+					automaticWeaponPassed += Time.deltaTime;
+				}
+			}
+		}else{
+			if(Input.GetButtonDown("Fire2")){
+				ShootBullet();
+			}
 		}
 
 		if(!returning){
