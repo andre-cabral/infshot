@@ -7,7 +7,7 @@ public class Projectile : MonoBehaviour {
 	public float velocity = 10f;
 	public bool destroyOnHitEnemy = true;
 	public bool destroyOnHitObject = true;
-	bool startProjectile = false;
+	//bool startProjectile = false;
 
 	void Update () {
 		/*if(startProjectile){*/
