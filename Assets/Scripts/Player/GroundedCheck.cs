@@ -3,19 +3,25 @@ using System.Collections;
 
 public class GroundedCheck : MonoBehaviour {
 
-	public PlayerMovement playerMovement;
+	public PlayerMovementJumpVelocity playerMovementJumpVelocity;
 
 	void OnTriggerEnter2D(Collider2D other) {
-		if(other.tag == Tags.platform){
-			if(playerMovement.getRigidbody2D().velocity.y <=0){
-				playerMovement.setGrounded(true);
+		if(other.tag == Tags.platform || other.tag == Tags.destructibleObject || other.tag == Tags.scenarioObject || other.tag == Tags.wall){
+			playerMovementJumpVelocity.setTouchingGround(true);
+		}
+	}
+
+	void OnTriggerStay2D(Collider2D other) {
+		if(other.tag == Tags.platform || other.tag == Tags.destructibleObject || other.tag == Tags.scenarioObject || other.tag == Tags.wall){
+			if(!playerMovementJumpVelocity.getTouchingGround()){
+				playerMovementJumpVelocity.setTouchingGround(true);
 			}
 		}
 	}
 
 	void OnTriggerExit2D(Collider2D other) {
-		if(other.tag == Tags.platform){
-			playerMovement.setGrounded(false);
+		if(other.tag == Tags.platform || other.tag == Tags.destructibleObject || other.tag == Tags.scenarioObject || other.tag == Tags.wall){
+			playerMovementJumpVelocity.setTouchingGround(false);
 		}
 	}
 }

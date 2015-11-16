@@ -10,6 +10,7 @@ public class PlayerMovement : MonoBehaviour {
 	public float maxJump = 600f;
 	public float walkSpeed = 2f;
 	bool grounded = true;
+	bool touchingGround = true;
 	float jumpPassed = 0f;
 	bool jumpPressed = false;
 	Rigidbody2D rbody2d;
@@ -17,6 +18,7 @@ public class PlayerMovement : MonoBehaviour {
 	HashAnimatorCharacter hashAnimatorCharacter;
 
 	void Awake () {
+		touchingGround = false;
 		rbody2d = GetComponent<Rigidbody2D>();
 		animator = GetComponent<Animator>();
 		hashAnimatorCharacter = GetComponent<HashAnimatorCharacter>();
@@ -64,7 +66,7 @@ public class PlayerMovement : MonoBehaviour {
 		if(rbody2d.velocity.y != 0 && grounded){
 			setGrounded(false);
 		}
-		if(!grounded && rbody2d.velocity.y == 0){
+		if(!grounded && rbody2d.velocity.y == 0 && touchingGround){
 			setGrounded(true);
 		}
 	}
@@ -76,5 +78,13 @@ public class PlayerMovement : MonoBehaviour {
 
 	public Rigidbody2D getRigidbody2D(){
 		return rbody2d;
+	}
+	
+	public void setTouchingGround(bool touchingGround){
+		this.touchingGround = touchingGround;
+	}
+	
+	public bool getTouchingGround(){
+		return touchingGround;
 	}
 }

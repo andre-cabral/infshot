@@ -16,15 +16,16 @@ public class WeaponShootAndKickback : MonoBehaviour {
 	public GameObject bullet;
 	public Transform bulletPositionObject;
 	public GameObject[] shootSplashObjects;
+	bool BButton = false;
 
 	void Update () {
-
+#if UNITY_EDITOR
 		if(automaticWeapon){
 			if(Input.GetButtonDown("Fire2")){
 				ShootBullet();
 				automaticWeaponPassed = 0f;
 			}
-			if(Input.GetButton("Fire1")){
+			if(Input.GetButton("Fire2")){
 				if(automaticWeaponPassed >= automaticWeaponDelay){
 					ShootBullet();
 					automaticWeaponPassed = 0f;
@@ -35,6 +36,18 @@ public class WeaponShootAndKickback : MonoBehaviour {
 		}else{
 			if(Input.GetButtonDown("Fire2")){
 				ShootBullet();
+			}
+		}
+#endif
+
+		if(automaticWeapon){
+			if(BButton){
+				if(automaticWeaponPassed >= automaticWeaponDelay){
+					ShootBullet();
+					automaticWeaponPassed = 0f;
+				}else{
+					automaticWeaponPassed += Time.deltaTime;
+				}
 			}
 		}
 
@@ -85,5 +98,20 @@ public class WeaponShootAndKickback : MonoBehaviour {
 			DisableAllSplashObjects();
 			shootSplashObjects[Random.Range(0, shootSplashObjects.Length)].SetActive(true);
 		}
+	}
+
+	public void StartBButton(){
+		BButton = true;
+
+		if(automaticWeapon){
+			ShootBullet();
+			automaticWeaponPassed = 0f;
+		}else{
+			ShootBullet();
+		}
+	}
+
+	public void EndBButton(){
+		BButton = false;
 	}
 }
