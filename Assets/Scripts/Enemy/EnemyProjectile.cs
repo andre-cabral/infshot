@@ -2,18 +2,18 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Projectile : MonoBehaviour {
+public class EnemyProjectile : MonoBehaviour {
 
 	public int damage = 1;
 	public float velocity = 10f;
 	public bool destroyOnHitDestructibleObject = true;
-	public bool destroyOnHitEnemy = true;
+	public bool destroyOnHitPlayer = true;
 	public bool destroyOnHitScenarioObject = true;
 	public bool destroyOnHitWall = true;
-	List<EnemyLife> enemyLifesHit = new List<EnemyLife>();
+	List<PlayerLife> playerLifesHit = new List<PlayerLife>();
 
 	void Update () {
-		transform.Translate(Vector2.right * velocity * Time.deltaTime);
+		transform.Translate(-Vector2.right * velocity * Time.deltaTime);
 	}
 
 	void OnTriggerEnter2D(Collider2D collider){
@@ -23,13 +23,9 @@ public class Projectile : MonoBehaviour {
 				Destroy(gameObject);
 			}
 		}
-		if(collider.CompareTag(Tags.enemy)){
-			EnemyLife enemyLife = collider.gameObject.GetComponent<EnemyLife>();
-			HitAnEnemy(enemyLife);
-		}
-		if(collider.CompareTag(Tags.enemyExtraCollider)){
-			EnemyLife enemyLife = collider.gameObject.GetComponent<EnemyExtraCollider>().enemyLifeToUse;
-			HitAnEnemy(enemyLife);
+		if(collider.CompareTag(Tags.player)){
+			PlayerLife playerLife = collider.gameObject.GetComponent<PlayerLife>();
+			HitPlayer(playerLife);
 		}
 		if(collider.CompareTag(Tags.scenarioObject)){
 			if(destroyOnHitScenarioObject){
@@ -44,11 +40,11 @@ public class Projectile : MonoBehaviour {
 
 	}
 
-	void HitAnEnemy(EnemyLife enemyLife){
-		if(!enemyLifesHit.Contains(enemyLife)){
-			enemyLifesHit.Add(enemyLife);
-			enemyLife.TakeDamage(damage);
-			if(destroyOnHitEnemy){
+	void HitPlayer(PlayerLife playerLife){
+		if(!playerLifesHit.Contains(playerLife)){
+			playerLifesHit.Add(playerLife);
+			playerLife.TakeDamage(damage);
+			if(destroyOnHitPlayer){
 				Destroy(gameObject);
 			}
 		}

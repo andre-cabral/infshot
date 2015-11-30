@@ -1,17 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class EnemyLife : MonoBehaviour {
+public class PlayerLife : MonoBehaviour {
 
 	public SpritesTint damageTint;
 	public float tintTime = 0.5f;
 	float tintTimePassed = 0f;
 	bool takingDamage = false;
-	public int maxLife = 5;
-	int life = 9999;
+	public int playerMaxLife = 10;
+	int playerLife = 10;
 
 	void Awake(){
-		life = maxLife;
+		playerLife = playerMaxLife;
 	}
 
 	void Update(){
@@ -27,8 +27,8 @@ public class EnemyLife : MonoBehaviour {
 	}
 
 	public void TakeDamage(int damage){
-		life -= damage;
-		if(life <= 0){
+		playerLife -= damage;
+		if(playerLife <= 0){
 			DeathEffects();
 		}else{
 			takingDamage = true;
@@ -37,7 +37,8 @@ public class EnemyLife : MonoBehaviour {
 		}
 	}
 
-	void DeathEffects(){
-		Destroy(gameObject);
+	public void DeathEffects(){
+
 	}
+
 }
