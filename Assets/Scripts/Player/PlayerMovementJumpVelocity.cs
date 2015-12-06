@@ -3,11 +3,11 @@ using System.Collections;
 
 public class PlayerMovementJumpVelocity : MonoBehaviour {
 
-	public float jumpStartForce = 200f;
-	public float jumpStartTime = 0.07f;
+	public float jumpStartForce = 7f;
+	public float jumpStartTime = 0.35f;
 	float jumpStartTimePassed = 0f;
-	public float jumpMidForce = 300f;
-	public float jumpTime = 1f;
+	public float jumpMidForce = 7f;
+	public float jumpTime = 0.5f;
 	public float walkSpeed = 2f;
 	public GameObject[] allWeaponsObjects;
 	public int startingWeaponNumber = 0;
@@ -67,8 +67,10 @@ public class PlayerMovementJumpVelocity : MonoBehaviour {
 
 		if( !jumpVelocityZero && ( (!jumpOnStartVelocity && !jumpPressed) || touchingCeiling) ){
 			Vector2 velocity = rbody2d.velocity;
-			velocity.y = 0f;
-			rbody2d.velocity = velocity;
+			if(velocity.y > 0f){
+				velocity.y = 0f;
+				rbody2d.velocity = velocity;
+			}
 			
 			jumpTimePassed = 0f;
 			jumpStartTimePassed = 0f;
